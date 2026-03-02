@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sylvetta Christmas — Line Producer · Executive Producer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --surface: #111114;
+    --surface-2: #1a1a1f;
+    --accent: #c9a96e;
+    --accent-dim: #8a7040;
+    --accent-glow: rgba(201, 169, 110, 0.15);
+    --text: #e8e4df;
+    --text-dim: #8a8680;
+    --text-muted: #5a5753;
+    --white: #f5f0ea;
+    --border: rgba(201, 169, 110, 0.12);
+    --border-strong: rgba(201, 169, 110, 0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 12, 0.8);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.4s ease;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; }
+
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -15%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    animation: heroGlow 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes heroGlow {
+    0% { opacity: 0.4; transform: translate(0, 0); }
+    100% { opacity: 0.7; transform: translate(-5%, 5%); }
+  }
+
+  .hero-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    font-weight: 500;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 900;
+    line-height: 0.95;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-name span {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, #e8d5a8 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-title {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: var(--text-dim);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .stat {
+    border-left: 1px solid var(--accent-dim);
+    padding-left: 1.5rem;
+  }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Section styling */
+  section {
+    padding: 6rem 3rem;
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 3rem;
+    line-height: 1.15;
+  }
+
+  /* About / Summary */
+  .about {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+  }
+
+  .about-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .about-text strong {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .competencies-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .competency {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .competency:hover {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  /* Credits */
+  .credits-section {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .credit-category {
+    margin-bottom: 4rem;
+  }
+
+  .credit-category-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .credit-category-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .credit-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+
+  .credit-item:hover {
+    padding-left: 1rem;
+    border-bottom-color: var(--border-strong);
+  }
+
+  .credit-network {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .credit-show {
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .credit-detail {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+    line-height: 1.5;
+  }
+
+  /* Feature Credits — horizontal scrolling cards */
+  .featured-credits {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .featured-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .featured-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .featured-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .featured-card:hover::before { opacity: 1; }
+
+  .featured-card .card-network {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .featured-card .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+  }
+
+  .featured-card .card-desc {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .featured-card .card-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    border-radius: 3px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .card-trailer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--border-strong);
+    padding: 0.3rem 0.75rem;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .card-trailer-link:hover {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  .card-trailer-link svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Experience Timeline */
+  .timeline {
+    position: relative;
+    max-width: 900px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-dim), transparent);
+  }
+
+  .timeline-item {
+    padding-left: 3rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0.5rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  /* Tools */
+  .tools-section { background: var(--surface); border-top: 1px solid var(--border); }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+  }
+
+  .tool-group-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .tool-group-items {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.9;
+  }
+
+  /* Networks Marquee */
+  .networks-section {
+    padding: 4rem 3rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .networks-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 40s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    transition: color 0.3s;
+  }
+
+  .marquee-item:hover { color: var(--accent); }
+
+  .marquee-divider {
+    color: var(--accent-dim);
+    opacity: 0.4;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Contact */
+  .contact-section {
+    text-align: center;
+    padding: 8rem 3rem;
+    position: relative;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .contact-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 2rem;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .contact-link:hover {
+    color: var(--accent);
+    border-color: var(--accent-dim);
+    background: var(--accent-glow);
+    transform: translateY(-2px);
+  }
+
+  .contact-link svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 3rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .nav-links a { font-size: 0.7rem; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .hero-stats { flex-wrap: wrap; gap: 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .competencies-grid { grid-template-columns: 1fr; }
+    .credit-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .featured-credits { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .contact-links { flex-direction: column; align-items: center; }
+  }
+
+  /* S.C. Particle Canvas */
+  #sc-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">Sylvetta Christmas</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#credits">Credits</a>
+    <a href="#experience">Experience</a>
+    <a href="#tools">Tools</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <canvas id="sc-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-label">Line Producer · Executive Producer</div>
+    <h1 class="hero-name"><span>Sylvetta</span><span>Christmas</span></h1>
+    <p class="hero-title">End-to-end production leadership across film, television, branded campaigns, experiential activations, and live events.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-value">15+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">$14M</div>
+        <div class="stat-label">Budget Range</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">150+</div>
+        <div class="stat-label">Person Crews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about" id="about">
+  <div class="about-grid reveal">
+    <div>
+      <div class="section-label">About</div>
+      <h2 class="section-title">Deep Financial Accountability Meets Ambitious Creative</h2>
+      <p class="about-text">
+        Line Producer with <strong>15+ years</strong> of end-to-end production leadership across film, television — unscripted and scripted — branded campaigns, commercials, digital content, experiential activations, and live events. Brings deep financial accountability to every project: budgets from <strong>$250K to $14M</strong>, cost reports, ETCs, vendor negotiations, SAG-AFTRA union compliance, and tax credit administration. Known for building the workflows, crew relationships, and operational systems that allow ambitious creative to execute efficiently — <strong>on schedule and on budget, every time</strong>.
+      </p>
+    </div>
+    <div>
+      <div class="section-label">Core Competencies</div>
+      <div class="competencies-grid">
+        <div class="competency">End-to-End Production</div>
+        <div class="competency">Cost Reports & ETCs</div>
+        <div class="competency">Budget Creation ($250K–$14M)</div>
+        <div class="competency">Live Event Production</div>
+        <div class="competency">Scheduling & Stripboards</div>
+        <div class="competency">Tax Credit Administration</div>
+        <div class="competency">Vendor & Talent Negotiation</div>
+        <div class="competency">Executive Presentations</div>
+        <div class="competency">SAG-AFTRA Compliance</div>
+        <div class="competency">Workflow Optimization</div>
+        <div class="competency">Crew Oversight (50–200+)</div>
+        <div class="competency">Post-Production & Delivery</div>
+        <div class="competency">Payroll & Risk Management</div>
+        <div class="competency">Creative Strategy Execution</div>
+        <div class="competency">Location & Permitting</div>
+        <div class="competency">International Production</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Credits -->
+<section id="credits">
+  <div class="credits-section">
+    <div class="reveal">
+      <div class="section-label">Select Credits</div>
+      <h2 class="section-title">Featured Productions</h2>
+    </div>
+
+    <div class="featured-credits reveal">
+      <div class="featured-card">
+        <div class="card-network">HBO Max</div>
+        <div class="card-title">Project Greenlight 5</div>
+        <div class="card-desc">$14M budget, 150+ crew, SAG-AFTRA union production. Show-within-a-show structure — first-time director shooting a feature while cameras captured the process.</div>
+        <div class="card-footer">
+          <span class="card-tag">Line Producer</span>
+          <a href="https://youtu.be/W00grJNOIVo" target="_blank" class="card-trailer-link">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm-1.5 5v6l5-3-5-3z"/></svg>
+            Watch Trailer
+          </a>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="card-network">Pearl Milling Company / Ten35</div>
+        <div class="card-title">National Relaunch Commercial</div>
+        <div class="card-desc">Produced three demographic-specific spots for the brand's high-profile relaunch. Made the strategic call to move non-speaking versions to Mexico City, achieving significant savings while maintaining creative consistency.</div>
+        <div class="card-footer">
+          <span class="card-tag">Executive Producer</span>
+          <a href="https://www.ispot.tv/share/qknM" target="_blank" class="card-trailer-link">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm-1.5 5v6l5-3-5-3z"/></svg>
+            Watch Spot
+          </a>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="card-network">OWN</div>
+        <div class="card-title">Iyanla: Fix My Life</div>
+        <div class="card-desc">Line Produced both the NAACP Award-nominated season and the series finale farewell special.</div>
+        <div class="card-footer">
+          <span class="card-tag">Line Producer · NAACP Nominated</span>
+          <a href="TRAILER_URL_IYANLA" target="_blank" class="card-trailer-link">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm-1.5 5v6l5-3-5-3z"/></svg>
+            Watch Trailer
+          </a>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="card-network">Paramount</div>
+        <div class="card-title">College Hill: Celebrity Edition</div>
+        <div class="card-desc">Back-to-back seasons of reality competition series produced across Atlanta and New Orleans.</div>
+        <div class="card-footer">
+          <span class="card-tag">Line Producer · Season 3</span>
+          <a href="TRAILER_URL_COLLEGE_HILL" target="_blank" class="card-trailer-link">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm-1.5 5v6l5-3-5-3z"/></svg>
+            Watch Trailer
+          </a>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="card-network">HGTV</div>
+        <div class="card-title">Married to Real Estate</div>
+        <div class="card-desc">Multi-property renovation series. Managed construction timelines, vendor coordination, and design integration across Atlanta.</div>
+        <div class="card-footer">
+          <span class="card-tag">Line Producer</span>
+          <a href="TRAILER_URL_MARRIED_REAL_ESTATE" target="_blank" class="card-trailer-link">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm-1.5 5v6l5-3-5-3z"/></svg>
+            Watch Trailer
+          </a>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="card-network">REVOLT</div>
+        <div class="card-title">Summit Live Content & Sodo Motive</div>
+        <div class="card-desc">Oversaw live branded content production across Atlanta and LA. Executive Produced documentary-format branded content in Seattle.</div>
+        <div class="card-footer">
+          <span class="card-tag">Executive Producer</span>
+          <a href="TRAILER_URL_SODO_MOTIVE" target="_blank" class="card-trailer-link">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm-1.5 5v6l5-3-5-3z"/></svg>
+            Watch Trailer
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Credits -->
+    <div class="credit-category reveal" style="margin-top: 4rem;">
+      <div class="credit-category-title">Additional Line Producing Credits</div>
+      <div class="credit-category-sub">Network Television · Film · Branded Content</div>
+
+      <div class="credit-item">
+        <div class="credit-network">Paramount</div>
+        <div>
+          <div class="credit-show">Impact</div>
+          <div class="credit-detail">Unscripted series, Atlanta-based</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">Amazon</div>
+        <div>
+          <div class="credit-show">The GOAT</div>
+          <div class="credit-detail">Unscripted series, Atlanta-based</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">TNT</div>
+        <div>
+          <div class="credit-show">Shaq Life 2</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">VH1</div>
+        <div>
+          <div class="credit-show">My True Crime Story 2</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">Discovery</div>
+        <div>
+          <div class="credit-show">Coming From America</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">Bravo</div>
+        <div>
+          <div class="credit-show">Your Husband Is Cheating On Us</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">Complex</div>
+        <div>
+          <div class="credit-show">ComplexLand / ComplexWorld</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">Ulta</div>
+        <div>
+          <div class="credit-show">MUSE Project</div>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-network">Havas</div>
+        <div>
+          <div class="credit-show">Camel / American Spirit / Kanye West Project</div>
+          <div class="credit-detail">Multi-brand commercial and branded content, various markets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience Timeline -->
+<section id="experience" style="background: var(--surface); border-top: 1px solid var(--border);">
+  <div class="reveal">
+    <div class="section-label">Career</div>
+    <h2 class="section-title">Professional Timeline</h2>
+  </div>
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="timeline-date">2019 — Present</div>
+      <div class="timeline-role">Executive Producer</div>
+      <div class="timeline-desc">Studio, Brand & Experiential Productions. National and international commercial, branded, and experiential productions with full ownership of strategy, budgets, creative partnerships, and stakeholder relationships from development through delivery.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2017 — Present</div>
+      <div class="timeline-role">Line Producer</div>
+      <div class="timeline-desc">Network Television · Film · Agency & Brand. Full-cycle line producing across broadcast, unscripted, documentary, commercial, branded, and experiential productions. Budgets, schedules, crew, vendors, and on-set operations from pre-production through delivery.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2007 — 2016</div>
+      <div class="timeline-role">Production Manager / Coordinator / PA / Intern</div>
+      <div class="timeline-desc">Rose through every level of production across Chicago and national markets. Built hands-on expertise in crew logistics, vendor coordination, permit management, location supervision, budgeting, and scheduling. Credits include VH1 Basketball Wives Seasons 1–5 & LA (NYC, Miami, London, Tahiti, Rome, Paris), CNBC The Deed Chicago, HGTV Flea Market Flip, and more.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Tools & Tech -->
+<section class="tools-section" id="tools">
+  <div class="reveal">
+    <div class="section-label">Technical</div>
+    <h2 class="section-title">Tools & Skills</h2>
+  </div>
+  <div class="tools-grid reveal">
+    <div>
+      <div class="tool-group-title">Budgeting</div>
+      <div class="tool-group-items">Movie Magic Budgeting & Scheduling · Hot Budget · Showbiz Budgeting</div>
+    </div>
+    <div>
+      <div class="tool-group-title">Project Management</div>
+      <div class="tool-group-items">Asana · Monday.com · Airtable · Trello · Slack · Google Workspace</div>
+    </div>
+    <div>
+      <div class="tool-group-title">Production</div>
+      <div class="tool-group-items">Call Sheets · Shot Lists · Stripboards · Cost Reports · Production Calendars</div>
+    </div>
+    <div>
+      <div class="tool-group-title">Creative</div>
+      <div class="tool-group-items">Keynote · Microsoft Office · Google Docs / Sheets / Slides · Deck Creation</div>
+    </div>
+    <div>
+      <div class="tool-group-title">Media</div>
+      <div class="tool-group-items">Adobe Creative Suite · Frame.io · Dropbox · WeTransfer</div>
+    </div>
+    <div>
+      <div class="tool-group-title">Compliance</div>
+      <div class="tool-group-items">SAG-AFTRA · AICP · COIs · Location Agreements · Payroll Systems · Tax Credits</div>
+    </div>
+  </div>
+</section>
+
+<!-- Networks Marquee -->
+<section class="networks-section">
+  <div class="networks-label">Notable Networks, Brands & Partners</div>
+  <div class="marquee-track">
+    <span class="marquee-item">HBO Max</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Paramount</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Amazon</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Disney</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">HGTV</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">OWN</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">TNT</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">VH1</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Bravo</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">CNBC</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">BET</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Oxygen</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Lifetime</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">REVOLT</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">National Geographic</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Pepsi</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">TikTok</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">AT&T</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Bumble</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Complex</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Havas</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Ulta</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Obama Foundation</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Kartemquin Films</span><span class="marquee-divider"> · </span>
+    <!-- Duplicate for seamless loop -->
+    <span class="marquee-item">HBO Max</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Paramount</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Amazon</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Disney</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">HGTV</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">OWN</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">TNT</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">VH1</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Bravo</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">CNBC</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">BET</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Oxygen</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Lifetime</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">REVOLT</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">National Geographic</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Pepsi</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">TikTok</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">AT&T</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Bumble</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Complex</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Havas</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Ulta</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Obama Foundation</span><span class="marquee-divider"> · </span>
+    <span class="marquee-item">Kartemquin Films</span>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-section" id="contact">
+  <div class="reveal">
+    <div class="section-label">Get in Touch</div>
+    <h2 class="contact-name">Let's Work Together</h2>
+    <div class="contact-links">
+      <a href="mailto:Sylvetta.Christmas@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Sylvetta.Christmas@gmail.com
+      </a>
+      <a href="tel:3123750463" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        312.375.0463
+      </a>
+      <a href="https://linkedin.com/in/sylvetta-christmas-1a9b528" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Sylvetta Christmas. All rights reserved.
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<script>
+  // S.C. Interactive Particle Background
+  (function () {
+    const canvas = document.getElementById('sc-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let W, H, particles = [];
+    const mouse = { x: -9999, y: -9999 };
+    const MOUSE_RADIUS = 130;
+    const GAP = 5; // pixel sampling density
+
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+      build();
+    }
+
+    function build() {
+      // Render "S.C." onto an off-screen canvas and sample lit pixels
+      const off = document.createElement('canvas');
+      off.width = W;
+      off.height = H;
+      const oc = off.getContext('2d');
+
+      const fontSize = Math.min(W * 0.52, H * 0.68, 380);
+      oc.clearRect(0, 0, W, H);
+      oc.font = `900 ${fontSize}px 'Playfair Display', serif`;
+      oc.textAlign = 'center';
+      oc.textBaseline = 'middle';
+      oc.fillStyle = '#ffffff';
+      oc.fillText('S.C.', W / 2, H / 2);
+
+      const data = oc.getImageData(0, 0, W, H).data;
+      const pts = [];
+
+      for (let y = 0; y < H; y += GAP) {
+        for (let x = 0; x < W; x += GAP) {
+          if (data[(y * W + x) * 4 + 3] > 100) {
+            pts.push([x, y]);
+          }
+        }
+      }
+
+      // Shuffle so particles build up organically from random positions
+      for (let i = pts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pts[i], pts[j]] = [pts[j], pts[i]];
+      }
+
+      particles = pts.map(([tx, ty]) => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        tx, ty,
+        vx: 0, vy: 0,
+        size: Math.random() * 1.3 + 0.4,
+        baseAlpha: Math.random() * 0.3 + 0.2,
+        ease: Math.random() * 0.03 + 0.018,
+      }));
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, W, H);
+
+      for (const p of particles) {
+        // Mouse repel
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < MOUSE_RADIUS && dist > 0) {
+          const force = ((MOUSE_RADIUS - dist) / MOUSE_RADIUS) * 5;
+          const ang = Math.atan2(dy, dx);
+          p.vx += Math.cos(ang) * force;
+          p.vy += Math.sin(ang) * force;
+        }
+
+        // Spring toward target
+        p.vx += (p.tx - p.x) * p.ease;
+        p.vy += (p.ty - p.y) * p.ease;
+
+        // Friction
+        p.vx *= 0.80;
+        p.vy *= 0.80;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Brighten particles close to their target position
+        const tdist = Math.sqrt((p.x - p.tx) ** 2 + (p.y - p.ty) ** 2);
+        const settled = Math.max(0, 1 - tdist / 60);
+        const alpha = p.baseAlpha * (0.4 + settled * 0.6);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201,169,110,${alpha})`;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    // Track mouse across the entire hero section
+    const hero = canvas.closest('.hero');
+    if (hero) {
+      hero.addEventListener('mousemove', e => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+      });
+      hero.addEventListener('mouseleave', () => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      });
+    }
+
+    // Touch support
+    canvas.addEventListener('touchmove', e => {
+      const r = canvas.getBoundingClientRect();
+      const t = e.touches[0];
+      mouse.x = t.clientX - r.left;
+      mouse.y = t.clientY - r.top;
+    }, { passive: true });
+    canvas.addEventListener('touchend', () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    // Debounced resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 200);
+    });
+
+    // Wait for Playfair Display to load before sampling
+    document.fonts.ready.then(() => {
+      resize();
+      tick();
+    });
+  })();
+</script>
+
+</body>
+</html>
